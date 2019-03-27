@@ -26,7 +26,7 @@ iOS Objc runtime Soure （obj runtime源码）
 #### call_category_loads
 #### (*load_method)(cls, SEL_load)
 
-## 2.+initalize加载处理过程阅读顺序标记以及注释理解：
+## 3.+initalize加载处理过程阅读顺序标记以及注释理解：
 ### objc-runtime-new.mm中
 #### Method class_getInstanceMethod(Class cls, SEL sel)
 #### lookUpImpOrNil(cls, sel, nil,NO)
