@@ -4808,7 +4808,7 @@ Method class_getInstanceMethod(Class cls, SEL sel)
     // wants a Method instead of an IMP.
 
 #warning fixme build and search caches
-        
+     //搜索方法列表，尝试方法解析
     // Search method lists, try method resolver, etc.
     lookUpImpOrNil(cls, sel, nil, 
                    NO/*initialize*/, NO/*cache*/, YES/*resolver*/);
@@ -4895,7 +4895,7 @@ IMP lookUpImpOrForward(Class cls, SEL sel, id inst,
     if (!cls->isRealized()) {
         realizeClass(cls);
     }
-
+    //判断该类是否需要初始化，是否已经初始化了
     if (initialize  &&  !cls->isInitialized()) {
         runtimeLock.unlock();
         _class_initialize (_class_getNonMetaClass(cls, inst));
