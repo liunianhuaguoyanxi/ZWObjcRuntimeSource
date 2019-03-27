@@ -76,7 +76,7 @@ runtime在运行时，动态将分类的方法合并到类对象方法和元类�
 ```
 -------------------------+initialize的调用过程----------------------------
 +initialize会在类第一次接收消息的时候调用
-如[Person alloc]  Person这个类第一次接收消息，消息时alloc
+如[Person alloc]  Person这个类第一次接收消息时,调用alloc
 相当于objc_msgSend([person class],@selector(alloc));
 +initialize是通过消息机制objc_msgSend，通过isa指针，找到对应的类对象或者元类对象，去里面的列表找+initialize方法进行
 
