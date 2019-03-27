@@ -21,9 +21,7 @@ iOS Objc runtime Soure （obj runtime源码）
 ### objc-os.mm中
 #### _objc_init
 #### load_images
-#### 
-
-### call_load_methods
+#### call_load_methods
 #### call_class_loads
 #### call_category_loads
 #### (*load_method)(cls, SEL_load)
