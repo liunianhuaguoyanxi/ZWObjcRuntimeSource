@@ -33,11 +33,13 @@ typedef void(*load_method_t)(id, SEL);
 
 struct loadable_class {
     Class cls;  // may be nil
+    //指向类的load方法
     IMP method;
 };
 
 struct loadable_category {
     Category cat;  // may be nil
+    //指向分类的load方法
     IMP method;
 };
 
@@ -186,6 +188,7 @@ static void call_class_loads(void)
     int i;
     
     // Detach current loadable list.
+    //取出可以加载的类，这个类是个结构体，里面有isa和IMP method （+load）
     struct loadable_class *classes = loadable_classes;
     int used = loadable_classes_used;
     loadable_classes = nil;
@@ -195,12 +198,14 @@ static void call_class_loads(void)
     // Call all +loads for the detached list.
     for (i = 0; i < used; i++) {
         Class cls = classes[i].cls;
+        //直接取出某个类的方法的地址
         load_method_t load_method = (load_method_t)classes[i].method;
         if (!cls) continue; 
 
         if (PrintLoading) {
             _objc_inform("LOAD: +[%s load]\n", cls->nameForLogging());
         }
+        //直接调用
         (*load_method)(cls, SEL_load);
     }
     
@@ -237,6 +242,7 @@ static bool call_category_loads(void)
     // Call all +loads for the detached list.
     for (i = 0; i < used; i++) {
         Category cat = cats[i].cat;
+        //直接取出某个分类的方法的地址
         load_method_t load_method = (load_method_t)cats[i].method;
         Class cls;
         if (!cat) continue;
@@ -248,6 +254,7 @@ static bool call_category_loads(void)
                              cls->nameForLogging(), 
                              _category_getName(cat));
             }
+            //直接调用
             (*load_method)(cls, SEL_load);
             cats[i].cat = nil;
         }
@@ -348,11 +355,12 @@ void call_load_methods(void)
     void *pool = objc_autoreleasePoolPush();
 
     do {
+        //首先反复调用类的+load方法，直到调用完
         // 1. Repeatedly call class +loads until there aren't any more
         while (loadable_classes_used > 0) {
             call_class_loads();
         }
-
+        //然后反复调用分类的+load方法，直到调用完
         // 2. Call category +loads ONCE
         more_categories = call_category_loads();
 

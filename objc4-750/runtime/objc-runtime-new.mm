@@ -2194,6 +2194,7 @@ load_images(const char *path __unused, const struct mach_header *mh)
         prepare_load_methods((const headerType *)mh);
     }
 
+    //调用+load方法
     // Call +load methods (without runtimeLock - re-entrant)
     call_load_methods();
 }

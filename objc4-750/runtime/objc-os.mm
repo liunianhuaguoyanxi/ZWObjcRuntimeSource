@@ -872,7 +872,7 @@ void _objc_atfork_child()
 * Called by libSystem BEFORE library initialization time
 **********************************************************************/
 
-//初始化
+//rntime 入口
 void _objc_init(void)
 {
     static bool initialized = false;
@@ -886,6 +886,7 @@ void _objc_init(void)
     lock_init();
     exception_init();
 
+    //load_images 加载镜像加载模块
     _dyld_objc_notify_register(&map_images, load_images, unmap_image);
 }
 
